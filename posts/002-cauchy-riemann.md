@@ -172,8 +172,35 @@ No matter how much we zoom in on $x_0 = 0$ the ratio $\frac{\Delta{f}}{\Delta{x}
 
 Thus, for a function $f: \mathbb{R} \rightarrow \mathbb{R}$ to be differentiable at $x_0$, we must have that $\frac{\Delta{f}}{\Delta{x}}$ is approximately equal, whether we take $x = x_0 + \varepsilon$ or $x = x_0 - \varepsilon$ (for small $\varepsilon > 0$). 
 
-In $\mathbb{C}$, a similar constraint applies. Let $z \longleftrightarrow (x, y)$ with $x = \text{Re}(z)$ and $y = \text{Im}(z)$. Also, let $g: \mathbb{C} \rightarrow \mathbb{C}$ with $g(z) = u(x, y) + iv(x, y)$, where $u(x, y) = \Re(g(z))$ and $v(x, y) = \Im(g(z))$. Note that formally, $u: \mathbb{R}^2 \rightarrow \mathbb{R}$ and $v: \mathbb{R}^2 \rightarrow \mathbb{R}$. If $g$ is differentiable at $z_0$, then $\frac{\Delta{g}}{\Delta{z}} = \frac{\Delta{u} + \Delta{iv}}{\Delta{z}}$. 
+In $\mathbb{C}$, a similar constraint applies. Let $z \longleftrightarrow (x, y)$ with $x = \text{Re}(z)$ and $y = \text{Im}(z)$. Also, let $g: \mathbb{C} \rightarrow \mathbb{C}$ with $g(z) = u(x, y) + iv(x, y)$, where $u(x, y) = \Re(g(z))$ and $v(x, y) = \Im(g(z))$. Note that formally, $u: \mathbb{R}^2 \rightarrow \mathbb{R}$ and $v: \mathbb{R}^2 \rightarrow \mathbb{R}$. 
 
-Suppose we approach $z_0$ from above and from the right. If $g'(z_0)$ exists, then $\frac{Delta{g}}{\Delta{z}}$ should be about the same in either case. In particular, 
 
-restrict $\Delta{z}$ to be purely imaginary, and parameterize it by $i\Delta{t}$ (for $\Delta{t} \in \mathbb{R}$). What is the value of   
+The problem often arises of explaining exactly when a particular situation occurs in terms of conditions that are easier to check or understand. A common technique in math is to first assume that the situation at hand occurs, and deducing which conditions must hold as a consequence. We then boldly conjecture that these conditions are also sufficient to produce the situation, and learn exactly when that situation occurs, as desired. 
+
+We do that here. First, suppose $g(z) = u(x, y) + iv(x, y)$ is differentiable. Then $u(x, y)$ and $v(x, y)$ must have first-order partial derivatives. (If you want to try proving why, submit your proof or a sketch of one below, and it will be graded by an LLM or click to reveal the answer!)
+
+Now $\frac{\Delta{g}}{\Delta{z}} = \frac{\Delta{u} + \Delta{iv}}{\Delta{z}}$. 
+
+Now zoom in on $z_0$. We let $\Delta{t} > 0$ be small, and note that $\frac{\Delta{g}}{\Delta{z}}$ should be approximately equal, whether we take $z = z_0 + i\Delta{t}$ or $z = z_0 + t$. 
+
+If we take $z = z_0 + \Delta{t}$, we have 
+$$\begin{equation*}
+\begin{split}
+\frac{\Delta{g}}{\Delta{z}} &= \frac{\Delta{u} + i\Delta{v}}{\Delta{t}} \\
+&= \frac{\Delta{u}}{\Delta{t}} + i\frac{\Delta{v}}{\Delta{t}} \\ 
+&= \frac{\partial{u}}{\partial{x}} + i\frac{\partial{v}}{\partial{x}}
+\end{split}
+\end{equation*}.$$
+
+On the other hand, if we take $z = z_0 + i\Delta{t}$, we have 
+$$\begin{equation*}
+\begin{split}
+\frac{\Delta{g}}{\Delta{z}} &= \frac{\Delta{u} + i\Delta{v}}{i\Delta{t}} \\
+&= -i\frac{\Delta{u}}{\Delta{t}} + \frac{\Delta{v}}{\Delta{t}} \\ 
+&= -i\frac{\partial{u}}{\partial{y}} + \frac{\partial{v}}{\partial{y}}
+\end{split}
+\end{equation*}.$$
+
+Setting real and imaginary parts equal in the above two equations, we obtain $$\frac{\partial{u}}{\partial{x}} = \frac{\partial{v}}{\partial{y}}$$ and $$\frac{\partial{v}}{\partial{x}} = -\frac{\partial{u}}{\partial{y}}.$$ These two conditions constitute the **Cauchy-Riemann Equations**. 
+
+In the next post, we will show that these necessary conditions are (basically) sufficient.
