@@ -34,7 +34,7 @@ class ComplexAvgRate(Scene):
             )
         )
         w_label = always_redraw(
-            lambda: MathTex("w", color=RED).next_to(
+            lambda: MathTex("z", color=RED).next_to(
                 plane.n2p(complex(wx.get_value(), wy.get_value())),
                 DOWN + LEFT * 0.5,
             )
@@ -45,13 +45,9 @@ class ComplexAvgRate(Scene):
             im = wy.get_value() + z0[1]
             sign = "+" if im >= 0 else "-"
             return MathTex(
-                f"{re:.2f} {sign} {abs(im):.2f}i",
+                r"\frac{\Delta g}{\Delta z} = " + f"{re:.2f} {sign} {abs(im):.2f}i",
                 color=WHITE,
-            ).next_to(
-                plane.n2p(complex(wx.get_value(), wy.get_value())),
-                UP,
-                buff=0.4,
-            )
+            ).to_corner(UR)
 
         rate_label = always_redraw(rate_text)
 
