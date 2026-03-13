@@ -172,4 +172,8 @@ No matter how much we zoom in on $x_0 = 0$ the ratio $\frac{\Delta{f}}{\Delta{x}
 
 Thus, for a function $f: \mathbb{R} \rightarrow \mathbb{R}$ to be differentiable at $x_0$, we must have that $\frac{\Delta{f}}{\Delta{x}}$ is approximately equal, whether we take $x = x_0 + \varepsilon$ or $x = x_0 - \varepsilon$ (for small $\varepsilon > 0$). 
 
-In $\mathbb{C}$, a similar constraint applies. Let $z \longleftrightarrow (x, y)$ with $x = \text{Re}(z)$ and $y = \text{Im}(z)$. 
+In $\mathbb{C}$, a similar constraint applies. Let $z \longleftrightarrow (x, y)$ with $x = \text{Re}(z)$ and $y = \text{Im}(z)$. Also, let $g: \mathbb{C} \rightarrow \mathbb{C}$ with $g(z) = u(x, y) + iv(x, y)$, where $u(x, y) = \Re(g(z))$ and $v(x, y) = \Im(g(z))$. Note that formally, $u: \mathbb{R}^2 \rightarrow \mathbb{R}$ and $v: \mathbb{R}^2 \rightarrow \mathbb{R}$. If $g$ is differentiable at $z_0$, then $\frac{\Delta{g}}{\Delta{z}} = \frac{\Delta{u} + \Delta{iv}}{\Delta{z}}$. 
+
+Suppose we approach $z_0$ from above and from the right. If $g'(z_0)$ exists, then $\frac{Delta{g}}{\Delta{z}}$ should be about the same in either case. In particular, 
+
+restrict $\Delta{z}$ to be purely imaginary, and parameterize it by $i\Delta{t}$ (for $\Delta{t} \in \mathbb{R}$). What is the value of   
