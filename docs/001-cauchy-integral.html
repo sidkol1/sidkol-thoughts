@@ -51,7 +51,7 @@ For this reason, I prefer the equivalent <em>limit</em> definition of a derivati
 In other words, the choice of a point $x_0$ induces a single-variable difference function $R_{x_0}(x) := \frac{f(x) - f(x_0)}{x - x_0}$. (When the choice of $x_0$ and $x$ are clear from context, we will refer to this quantity with the notation $\frac{\Delta{f}}{\Delta{x}}$). The quantity $f'(x_0)$ is the value assumed by this difference function throughout small neighborhoods of $x_0$.
 </p>
 <p>
-How can we visualize the limit definition? One way is to imagine the real line with a point $x_0$ fixed. Now for each number $x \neq x_0$, we can calculate the average rate of change in $f$ between $x$ and $x_0$. The derivative is the limit of this rate as $x \rightarrow x_0$ (the "rate-of-change-function" has a hole at $x = x_0$, which does not pose an issue for finding its <em>limit</em>). If $f(x) = x^2$ and we want to calculate $f'(1)$, this looks like the following:
+How can we make intuitive sense of the limit definition? One way is to imagine the real line with a point $x_0$ fixed. Now for each number $x \neq x_0$, we can calculate the average rate of change in $f$ between $x$ and $x_0$. The derivative is the limit of this rate as $x \rightarrow x_0$ (the "rate-of-change-function" has a hole at $x = x_0$, which does not pose an issue for finding its <em>limit</em>). If $f(x) = x^2$ and we want to calculate $f'(1)$, we get the following:
 </p>
 <img src="assets/avg-rate-of-change.gif" alt="Average rate of change">
 <p>
@@ -127,27 +127,39 @@ Try it yourself by dragging the red dot corresponding to $x$:
       }
     }
 
+    function inView(v) { return v >= xMin && v <= xMax; }
+
     function update() {
-      xDot.setAttribute('cx', toSvgX(xVal));
-      x0Dot.setAttribute('cx', toSvgX(x0));
+      var sx = toSvgX(xVal), sx0 = toSvgX(x0);
+      xDot.setAttribute('cx', sx);
+      x0Dot.setAttribute('cx', sx0);
+      var xVis = inView(xVal), x0Vis = inView(x0);
+      xDot.setAttribute('visibility', xVis ? 'visible' : 'hidden');
+      x0Dot.setAttribute('visibility', x0Vis ? 'visible' : 'hidden');
       readout.innerHTML = katex.renderToString(
         '\\frac{\\Delta f}{\\Delta x} = ' + (xVal + x0).toFixed(2),
         { throwOnError: false }
       );
       var wrapper = svg.parentElement;
-      var p0 = svgToPage(toSvgX(x0), 55);
-      var pX = svgToPage(toSvgX(xVal), 55);
       var wrapRect = wrapper.getBoundingClientRect();
-      x0Lbl.innerHTML = katex.renderToString('x_0', { throwOnError: false });
-      x0Lbl.style.left = (p0.x - wrapRect.left - 8) + 'px';
-      x0Lbl.style.top = (p0.y - wrapRect.top) + 'px';
-      x0Lbl.style.color = '#e8c840';
-      x0Lbl.style.fontSize = '0.85em';
-      xLbl.innerHTML = katex.renderToString('x', { throwOnError: false });
-      xLbl.style.left = (pX.x - wrapRect.left - 5) + 'px';
-      xLbl.style.top = (pX.y - wrapRect.top) + 'px';
-      xLbl.style.color = '#e05050';
-      xLbl.style.fontSize = '0.85em';
+      if (x0Vis) {
+        var p0 = svgToPage(sx0, 55);
+        x0Lbl.innerHTML = katex.renderToString('x_0', { throwOnError: false });
+        x0Lbl.style.left = (p0.x - wrapRect.left - 8) + 'px';
+        x0Lbl.style.top = (p0.y - wrapRect.top) + 'px';
+        x0Lbl.style.color = '#e8c840';
+        x0Lbl.style.fontSize = '0.85em';
+        x0Lbl.style.display = '';
+      } else { x0Lbl.style.display = 'none'; }
+      if (xVis) {
+        var pX = svgToPage(sx, 55);
+        xLbl.innerHTML = katex.renderToString('x', { throwOnError: false });
+        xLbl.style.left = (pX.x - wrapRect.left - 5) + 'px';
+        xLbl.style.top = (pX.y - wrapRect.top) + 'px';
+        xLbl.style.color = '#e05050';
+        xLbl.style.fontSize = '0.85em';
+        xLbl.style.display = '';
+      } else { xLbl.style.display = 'none'; }
     }
 
     x0Input.addEventListener('input', function() {
@@ -207,7 +219,7 @@ Since $\frac{\Delta{f}}{\Delta{x}} \rightarrow 2$ as $x \rightarrow 1$, we concl
 Suppose that $g: \mathbb{C} \rightarrow \mathbb{C}$. We would expect the derivative of $g$ at a point $z_0$ to be the averate rate of change in $g$ between $z_0$ and points close to $z_0$ (or more specifically, the limit of this rate of change). Defining the average rate of change in $\mathbb{C}$ amounts to just swapping some variables for other ones in the definition for $\mathbb{R}$. Between $z_0$ and $z$, the average rate of change in $g$ is $\frac{g(z) - g(z_0)}{z - z_0}$.
 </p>
 <p>
-The above guess is correct. Let's consider $g(z) = z^2$ and its derivative at $z_0 = 1 + i$. We'll calculate the average rate of change between $z_0$ and $z$ for various choices of $z$, and observe what happens when $z$ gets close to $z_0$.
+Fortunately, the above guess is correct. Let's consider $g(z) = z^2$ and its derivative at $z_0 = 1 + i$. We'll calculate the average rate of change between $z_0$ and $z$ for various choices of $z$, and observe what happens when $z$ gets close to $z_0$.
 </p>
 <img src="assets/complex-avg-rate.gif" alt="Complex average rate of change">
 <p>
@@ -333,11 +345,18 @@ Try it yourself by dragging the red dot corresponding to $z$ around the complex 
       }
     }
 
+    function inViewX(v) { return v >= vXMin && v <= vXMax; }
+    function inViewY(v) { return v >= vYMin && v <= vYMax; }
+    function inView(re, im) { return inViewX(re) && inViewY(im); }
+
     function update() {
       zDot.setAttribute('cx', toSvgX(zRe));
       zDot.setAttribute('cy', toSvgY(zIm));
       z0Dot.setAttribute('cx', toSvgX(z0Re));
       z0Dot.setAttribute('cy', toSvgY(z0Im));
+      var zVis = inView(zRe, zIm), z0Vis = inView(z0Re, z0Im);
+      zDot.setAttribute('visibility', zVis ? 'visible' : 'hidden');
+      z0Dot.setAttribute('visibility', z0Vis ? 'visible' : 'hidden');
       var re = zRe + z0Re, im = zIm + z0Im;
       var sign = im >= 0 ? '+' : '-';
       readout.innerHTML = katex.renderToString(
@@ -346,16 +365,22 @@ Try it yourself by dragging the red dot corresponding to $z$ around the complex 
       );
       var wrapper = svg.parentElement;
       var wrapRect = wrapper.getBoundingClientRect();
-      var p0 = svgToPage(toSvgX(z0Re), toSvgY(z0Im));
-      var pZ = svgToPage(toSvgX(zRe), toSvgY(zIm));
-      z0Lbl.innerHTML = katex.renderToString('z_0', { throwOnError: false });
-      z0Lbl.style.left = (p0.x - wrapRect.left + 8) + 'px';
-      z0Lbl.style.top = (p0.y - wrapRect.top + 4) + 'px';
-      z0Lbl.style.color = '#e8c840'; z0Lbl.style.fontSize = '0.85em';
-      zLbl.innerHTML = katex.renderToString('z', { throwOnError: false });
-      zLbl.style.left = (pZ.x - wrapRect.left + 8) + 'px';
-      zLbl.style.top = (pZ.y - wrapRect.top + 4) + 'px';
-      zLbl.style.color = '#e05050'; zLbl.style.fontSize = '0.85em';
+      if (z0Vis) {
+        var p0 = svgToPage(toSvgX(z0Re), toSvgY(z0Im));
+        z0Lbl.innerHTML = katex.renderToString('z_0', { throwOnError: false });
+        z0Lbl.style.left = (p0.x - wrapRect.left + 8) + 'px';
+        z0Lbl.style.top = (p0.y - wrapRect.top + 4) + 'px';
+        z0Lbl.style.color = '#e8c840'; z0Lbl.style.fontSize = '0.85em';
+        z0Lbl.style.display = '';
+      } else { z0Lbl.style.display = 'none'; }
+      if (zVis) {
+        var pZ = svgToPage(toSvgX(zRe), toSvgY(zIm));
+        zLbl.innerHTML = katex.renderToString('z', { throwOnError: false });
+        zLbl.style.left = (pZ.x - wrapRect.left + 8) + 'px';
+        zLbl.style.top = (pZ.y - wrapRect.top + 4) + 'px';
+        zLbl.style.color = '#e05050'; zLbl.style.fontSize = '0.85em';
+        zLbl.style.display = '';
+      } else { zLbl.style.display = 'none'; }
     }
 
     function onZ0Input() {
@@ -417,7 +442,7 @@ As we can see, $g'(z_0) = 2 + 2i = 2z_0$, as we would expect. Alternatively, we 
 </p>
 <img src="assets/diff-quotient-heatmap.png" alt="Difference quotient heatmap">
 <p>
-Crucially, in sufficiently small circles enclosing $z_0$, the average rate of change between $z_0$ and $z$ is approximately constant. This is what allows the limit $$\lim_{z \rightarrow z_0}\frac{f(z) - f(z_0)}{z - z_0}$$ to exist in the first place. That constraint will prove important later.
+Crucially, throughout sufficiently small circles enclosing $z_0$, the average rate of change between $z_0$ and $z$ is approximately constant. This is what allows the limit $$\lim_{z \rightarrow z_0}\frac{f(z) - f(z_0)}{z - z_0}$$ to exist in the first place. That constraint will prove important later.
 </p>
 <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
 <script>

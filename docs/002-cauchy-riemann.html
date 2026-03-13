@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cauchy-Riemann Equations</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<style>
+  body {
+    max-width: 38em;
+    margin: 2em auto;
+    padding: 0 1em;
+    font-family: 'Latin Modern Roman', 'Computer Modern', Georgia, serif;
+    font-size: 18px;
+    line-height: 1.6;
+    color: #222;
+    background: #fdfdfd;
+  }
+  h1 { font-size: 1.6em; margin-bottom: 0.2em; }
+  h2 { font-size: 1.25em; margin-top: 1.8em; }
+  .date { color: #888; font-size: 0.9em; margin-bottom: 2em; }
+  .katex-display { overflow-x: auto; overflow-y: hidden; }
+  img { max-width: 100%; border-radius: 4px; }
+  a { color: #245; }
+  .home { font-size: 0.9em; margin-bottom: 1.5em; }
+  .home a { text-decoration: none; color: #666; }
+</style>
+</head>
+<body>
+<div class="home"><a href="index.html">&larr; all posts</a></div>
+<h1>Cauchy-Riemann Equations</h1>
+<div class="date">2026-03-13</div>
+<p>
+So the derivative of a complex-valued function $g$ at $z_0$ is the complex number approached by $\frac{\Delta{g}}{\Delta{z}}$ as $\Delta{z} \rightarrow 0$. With this in mind, we should note that the derivative of a function $g$ need not exist at $z_0$.
+</p>
+<p>
+To see why, consider the classic example of $f:\mathbb{R} \rightarrow \mathbb{R}$ by $f(x) = |x|$. As before, we'll position $x_0$ at $0$ and think about what happens to $\frac{\Delta{f}}{\Delta{x}}$ as $x \rightarrow 0$.
+</p>
+<img src="assets/abs-rate-of-change.gif" alt="Absolute value rate of change">
+<p>
+No matter how much we zoom in on $x_0 = 0$ the ratio $\frac{\Delta{f}}{\Delta{x}}$ does not approach a constant in the surrounding region. Try zooming in for yourself below: we always have $\frac{\Delta{f}}{\Delta{x}} = -1$ to the left of $x_0 = 0$, and $\frac{\Delta{f}}{\Delta{x}} = +1$ to the right.
+</p>
+<div class="interactive-abs" style="position:relative; margin:1.5em 0;">
+  <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.4em;">
+    <div style="font-size:0.9em;">
+      <span id="abs-x0-input-label" style="color:#e8c840;"></span>
+      <input id="abs-x0-input" type="number" step="any" value="0" style="width:3.5em; font-family:Georgia,serif; font-size:0.95em; border:1px solid #ccc; border-radius:3px; padding:2px 4px; margin-left:2px;">
+    </div>
+    <div id="abs-readout" style="font-size:1.1em; min-height:1.6em;"></div>
+  </div>
+  <div style="position:relative;">
+    <svg id="abs-svg" width="100%" viewBox="0 0 600 80" style="display:block; user-select:none;">
+      <line x1="40" y1="40" x2="560" y2="40" stroke="#222" stroke-width="1.5"/>
+      <polygon points="560,40 553,36 553,44" fill="#222"/>
+      <g id="abs-ticks"></g>
+      <circle cx="0" cy="40" r="6" fill="#e8c840" id="abs-x0-dot"/>
+      <circle cx="0" cy="40" r="7" fill="#e05050" id="abs-x-dot" style="cursor:grab;"/>
+    </svg>
+    <div id="abs-x0-lbl" style="position:absolute; pointer-events:none;"></div>
+    <div id="abs-x-lbl" style="position:absolute; pointer-events:none;"></div>
+  </div>
+  <div style="text-align:center; font-size:0.8em; color:#999; margin-top:0.3em;">scroll to zoom</div>
+  <script>
+  (function() {
+    var svg = document.getElementById('abs-svg');
+    var readout = document.getElementById('abs-readout');
+    var xDot = document.getElementById('abs-x-dot');
+    var x0Dot = document.getElementById('abs-x0-dot');
+    var x0Lbl = document.getElementById('abs-x0-lbl');
+    var xLbl = document.getElementById('abs-x-lbl');
+    var ticksG = document.getElementById('abs-ticks');
+    var x0Input = document.getElementById('abs-x0-input');
+    var x0InputLabel = document.getElementById('abs-x0-input-label');
+    var pxLeft = 40, pxRight = 550;
+    var x0 = 0, xVal = 2;
+    var xMin = -4, xMax = 4;
+
+    x0InputLabel.innerHTML = katex.renderToString('x_0 =', { throwOnError: false });
+
+    function toSvgX(v) { return pxLeft + (v - xMin) / (xMax - xMin) * (pxRight - pxLeft); }
+    function fromSvgX(px) { return xMin + (px - pxLeft) / (pxRight - pxLeft) * (xMax - xMin); }
+
+    function svgToPage(svgX, svgY) {
+      var rect = svg.getBoundingClientRect();
+      var vb = svg.viewBox.baseVal;
+      return {
+        x: rect.left + (svgX - vb.x) / vb.width * rect.width,
+        y: rect.top + (svgY - vb.y) / vb.height * rect.height
+      };
+    }
+
+    function drawTicks() {
+      ticksG.innerHTML = '';
+      var range = xMax - xMin;
+      var step = range <= 2 ? 0.25 : range <= 5 ? 0.5 : range <= 12 ? 1 : 2;
+      var start = Math.ceil(xMin / step) * step;
+      for (var t = start; t <= xMax; t += step) {
+        var px = toSvgX(t);
+        var tick = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+        tick.setAttribute('x1', px); tick.setAttribute('x2', px);
+        tick.setAttribute('y1', 35); tick.setAttribute('y2', 45);
+        tick.setAttribute('stroke', '#222'); tick.setAttribute('stroke-width', '1');
+        ticksG.appendChild(tick);
+        var label = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+        label.setAttribute('x', px); label.setAttribute('y', 28);
+        label.setAttribute('text-anchor', 'middle'); label.setAttribute('font-size', '12');
+        label.setAttribute('fill', '#666'); label.setAttribute('font-family', 'Georgia, serif');
+        label.textContent = parseFloat(t.toFixed(4));
+        ticksG.appendChild(label);
+      }
+    }
+
+    function inView(v) { return v >= xMin && v <= xMax; }
+
+    function update() {
+      var sx = toSvgX(xVal), sx0 = toSvgX(x0);
+      xDot.setAttribute('cx', sx);
+      x0Dot.setAttribute('cx', sx0);
+      var xVis = inView(xVal), x0Vis = inView(x0);
+      xDot.setAttribute('visibility', xVis ? 'visible' : 'hidden');
+      x0Dot.setAttribute('visibility', x0Vis ? 'visible' : 'hidden');
+      // f(x) = |x|, diff quotient = (|x| - |x0|) / (x - x0)
+      var diff = xVal - x0;
+      var rate = (Math.abs(xVal) - Math.abs(x0)) / diff;
+      readout.innerHTML = katex.renderToString(
+        '\\frac{\\Delta f}{\\Delta x} = ' + rate.toFixed(2),
+        { throwOnError: false }
+      );
+      var wrapper = svg.parentElement;
+      var wrapRect = wrapper.getBoundingClientRect();
+      if (x0Vis) {
+        var p0 = svgToPage(sx0, 55);
+        x0Lbl.innerHTML = katex.renderToString('x_0', { throwOnError: false });
+        x0Lbl.style.left = (p0.x - wrapRect.left - 8) + 'px';
+        x0Lbl.style.top = (p0.y - wrapRect.top) + 'px';
+        x0Lbl.style.color = '#e8c840';
+        x0Lbl.style.fontSize = '0.85em';
+        x0Lbl.style.display = '';
+      } else { x0Lbl.style.display = 'none'; }
+      if (xVis) {
+        var pX = svgToPage(sx, 55);
+        xLbl.innerHTML = katex.renderToString('x', { throwOnError: false });
+        xLbl.style.left = (pX.x - wrapRect.left - 5) + 'px';
+        xLbl.style.top = (pX.y - wrapRect.top) + 'px';
+        xLbl.style.color = '#e05050';
+        xLbl.style.fontSize = '0.85em';
+        xLbl.style.display = '';
+      } else { xLbl.style.display = 'none'; }
+    }
+
+    x0Input.addEventListener('input', function() {
+      var v = parseFloat(x0Input.value);
+      if (!isNaN(v)) {
+        x0 = v; xVal = x0 + 2;
+        var mid = (x0 + xVal) / 2;
+        var half = Math.max(Math.abs(xVal - x0), 2) * 1.5;
+        xMin = mid - half; xMax = mid + half;
+        drawTicks(); update();
+      }
+    });
+
+    var dragging = false;
+    function startDrag(e) { dragging = true; xDot.style.cursor = 'grabbing'; e.preventDefault(); }
+    function endDrag() { dragging = false; xDot.style.cursor = 'grab'; }
+    function onMove(e) {
+      if (!dragging) return;
+      var pt = svg.createSVGPoint();
+      pt.x = e.touches ? e.touches[0].clientX : e.clientX;
+      pt.y = e.touches ? e.touches[0].clientY : e.clientY;
+      var svgP = pt.matrixTransform(svg.getScreenCTM().inverse());
+      xVal = fromSvgX(svgP.x);
+      var eps = (xMax - xMin) * 0.005;
+      if (Math.abs(xVal - x0) < eps) xVal = x0 + eps;
+      update();
+    }
+    xDot.addEventListener('mousedown', startDrag);
+    xDot.addEventListener('touchstart', startDrag, { passive: false });
+    window.addEventListener('mousemove', onMove);
+    window.addEventListener('touchmove', onMove, { passive: false });
+    window.addEventListener('mouseup', endDrag);
+    window.addEventListener('touchend', endDrag);
+
+    svg.addEventListener('wheel', function(e) {
+      e.preventDefault();
+      var pt = svg.createSVGPoint();
+      pt.x = e.clientX; pt.y = e.clientY;
+      var svgP = pt.matrixTransform(svg.getScreenCTM().inverse());
+      var center = fromSvgX(svgP.x);
+      var factor = e.deltaY > 0 ? 1.15 : 1 / 1.15;
+      xMin = center + (xMin - center) * factor;
+      xMax = center + (xMax - center) * factor;
+      drawTicks();
+      update();
+    }, { passive: false });
+
+    drawTicks();
+    update();
+  })();
+  </script>
+</div>
+<p>
+Thus, for a function $f: \mathbb{R} \rightarrow \mathbb{R}$ to be differentiable at $x_0$ we must have that $\frac{\Delta{f}}{\Delta{x}}$ is approximately the same whether we take $x = x_0 + \varepesilon$ or $x = x_0 - \varepsilon$.
+</p>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<script>
+renderMathInElement(document.body, {
+  delimiters: [
+    {left: "$$", right: "$$", display: true},
+    {left: "$", right: "$", display: false}
+  ]
+});
+</script>
+</body>
+</html>
