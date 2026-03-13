@@ -3,9 +3,9 @@ title: Complex Differentiation
 date: 2026-03-12
 ---
 
-When I ask people to explain what it might mean to talk about the derivative of a function $g:\mathbb{C}\rightarrow\mathbb{C}$, they sometimes muse about slopes of planes in four-dimensional-space. This mistake happens due to an excessive commitment to one notion of a *derivative*.
+When I ask people to explain what it might mean to take the derivative of a function $g:\mathbb{C}\rightarrow\mathbb{C}$, they sometimes muse about slopes of planes in four-dimensional-space. This mistake happens because they are overly commited to one of many possible conceptions of a *derivative*.
 
-People mentally model the idea of a derivative in many ways. According to one such model, the derivative of a function $f: \mathbb{R}\rightarrow\mathbb{R}$ at a point $x_0$ is the slope of the tangent line of $f$ at $x_0$. 
+Indeed, there are many ways to mentally model the idea of a derivative. According to one such model, the derivative of a function $f: \mathbb{R}\rightarrow\mathbb{R}$ at a point $x_0$ is the slope of the tangent line of $f$ at $x_0$. 
 
 Displayed below is the derivative of $x^2$ at a point $x_0$, denoted by a yellow dot. The derivative is given by the slope of the red line tangent to $f$ at $x_0$. 
 
@@ -22,10 +22,16 @@ How can we visualize the limit definition? One way is to imagine the real line w
 
 ![Average rate of change](assets/avg-rate-of-change.gif)
 
-Try it yourself -- drag the red dot:
+Try it yourself by dragging the red dot corresponding to $x$:
 
 <div class="interactive-real-line" style="position:relative; margin:1.5em 0;">
-  <div id="rl-readout" style="text-align:right; margin-bottom:0.4em; font-size:1.1em; min-height:1.6em;"></div>
+  <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.4em;">
+    <div style="font-size:0.9em;">
+      <span id="rl-x0-input-label" style="color:#e8c840;"></span>
+      <input id="rl-x0-input" type="number" step="any" value="1" style="width:3.5em; font-family:Georgia,serif; font-size:0.95em; border:1px solid #ccc; border-radius:3px; padding:2px 4px; margin-left:2px;">
+    </div>
+    <div id="rl-readout" style="font-size:1.1em; min-height:1.6em;"></div>
+  </div>
   <div style="position:relative;">
     <svg id="rl-svg" width="100%" viewBox="0 0 600 80" style="display:block; user-select:none;">
       <line x1="40" y1="40" x2="560" y2="40" stroke="#222" stroke-width="1.5" id="rl-axis"/>
@@ -47,11 +53,13 @@ Try it yourself -- drag the red dot:
     var x0Lbl = document.getElementById('rl-x0-lbl');
     var xLbl = document.getElementById('rl-x-lbl');
     var ticksG = document.getElementById('rl-ticks');
-    var axis = document.getElementById('rl-axis');
-    var arrow = document.getElementById('rl-arrow');
+    var x0Input = document.getElementById('rl-x0-input');
+    var x0InputLabel = document.getElementById('rl-x0-input-label');
     var pxLeft = 40, pxRight = 550;
     var x0 = 1, xVal = 3;
     var xMin = -2, xMax = 4;
+
+    x0InputLabel.innerHTML = katex.renderToString('x_0 =', { throwOnError: false });
 
     function toSvgX(v) { return pxLeft + (v - xMin) / (xMax - xMin) * (pxRight - pxLeft); }
     function fromSvgX(px) { return xMin + (px - pxLeft) / (pxRight - pxLeft) * (xMax - xMin); }
@@ -109,6 +117,17 @@ Try it yourself -- drag the red dot:
       xLbl.style.fontSize = '0.85em';
     }
 
+    x0Input.addEventListener('input', function() {
+      var v = parseFloat(x0Input.value);
+      if (!isNaN(v)) {
+        x0 = v; xVal = x0 + 2;
+        var mid = (x0 + xVal) / 2;
+        var half = Math.max(Math.abs(xVal - x0), 2) * 1.5;
+        xMin = mid - half; xMax = mid + half;
+        drawTicks(); update();
+      }
+    });
+
     var dragging = false;
     function startDrag(e) { dragging = true; xDot.style.cursor = 'grabbing'; e.preventDefault(); }
     function endDrag() { dragging = false; xDot.style.cursor = 'grab'; }
@@ -157,10 +176,19 @@ The above guess is correct. Let's consider $g(z) = z^2$ and its derivative at $z
 
 ![Complex average rate of change](assets/complex-avg-rate.gif)
 
-Try it yourself -- drag the red dot around the complex plane:
+Try it yourself by dragging the red dot corresponding to $z$ around the complex plane:
 
 <div class="interactive-complex-plane" style="position:relative; margin:1.5em 0;">
-  <div id="cp-readout" style="text-align:right; margin-bottom:0.4em; font-size:1.1em; min-height:1.6em;"></div>
+  <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.4em; flex-wrap:wrap; gap:0.4em;">
+    <div style="font-size:0.9em; display:flex; align-items:center; gap:4px;">
+      <span id="cp-z0-input-label" style="color:#e8c840;"></span>
+      <input id="cp-z0-re-input" type="number" step="any" value="1" style="width:3.5em; font-family:Georgia,serif; font-size:0.95em; border:1px solid #ccc; border-radius:3px; padding:2px 4px;">
+      <span style="color:#888;">+</span>
+      <input id="cp-z0-im-input" type="number" step="any" value="1" style="width:3.5em; font-family:Georgia,serif; font-size:0.95em; border:1px solid #ccc; border-radius:3px; padding:2px 4px;">
+      <span style="color:#888; font-style:italic;">i</span>
+    </div>
+    <div id="cp-readout" style="font-size:1.1em; min-height:1.6em;"></div>
+  </div>
   <div style="position:relative;">
     <svg id="cp-svg" width="100%" viewBox="0 0 500 500" style="display:block; user-select:none;">
       <g id="cp-axes"></g>
@@ -182,9 +210,14 @@ Try it yourself -- drag the red dot around the complex plane:
     var zLbl = document.getElementById('cp-z-lbl');
     var ticksG = document.getElementById('cp-ticks');
     var axesG = document.getElementById('cp-axes');
+    var z0ReInput = document.getElementById('cp-z0-re-input');
+    var z0ImInput = document.getElementById('cp-z0-im-input');
+    var z0InputLabel = document.getElementById('cp-z0-input-label');
     var pxMin = 30, pxMax = 470;
     var z0Re = 1, z0Im = 1, zRe = 3, zIm = 0;
     var vXMin = -3, vXMax = 4, vYMin = -3, vYMax = 4;
+
+    z0InputLabel.innerHTML = katex.renderToString('z_0 =', { throwOnError: false });
 
     function toSvgX(v) { return pxMin + (v - vXMin) / (vXMax - vXMin) * (pxMax - pxMin); }
     function toSvgY(v) { return pxMax - (v - vYMin) / (vYMax - vYMin) * (pxMax - pxMin); }
@@ -290,6 +323,20 @@ Try it yourself -- drag the red dot around the complex plane:
       zLbl.style.color = '#e05050'; zLbl.style.fontSize = '0.85em';
     }
 
+    function onZ0Input() {
+      var re = parseFloat(z0ReInput.value), im = parseFloat(z0ImInput.value);
+      if (!isNaN(re)) z0Re = re;
+      if (!isNaN(im)) z0Im = im;
+      zRe = z0Re + 2; zIm = z0Im - 1;
+      var midX = (z0Re + zRe) / 2, midY = (z0Im + zIm) / 2;
+      var span = Math.max(Math.abs(zRe - z0Re), Math.abs(zIm - z0Im), 2) * 1.5;
+      vXMin = midX - span; vXMax = midX + span;
+      vYMin = midY - span; vYMax = midY + span;
+      drawAxes(); drawTicks(); update();
+    }
+    z0ReInput.addEventListener('input', onZ0Input);
+    z0ImInput.addEventListener('input', onZ0Input);
+
     var dragging = false;
     function startDrag(e) { dragging = true; zDot.style.cursor = 'grabbing'; e.preventDefault(); }
     function endDrag() { dragging = false; zDot.style.cursor = 'grab'; }
@@ -331,7 +378,7 @@ Try it yourself -- drag the red dot around the complex plane:
   </script>
 </div>
 
-As we can see, $g'(z_0) = 2 + 2i = 2z_0$, as we would expect. Alternatively, we can visualize the average rate of change between $z_0$ and $z$ for all possible choices of $z$ at once. (Heatmaps are often used to visualize complex-valued functions, with hue denoting magnitude and brightness denoting modulus).
+As we can see, $g'(z_0) = 2 + 2i = 2z_0$, as we would expect. Alternatively, we can visualize the average rate of change between $z_0$ and $z$ for all possible choices of $z$ at once. Below is a plot of the difference function induced by the choice of $z_0$. (Heatmaps are often used to visualize complex-valued functions, with hue denoting magnitude and brightness denoting modulus).
 
 ![Difference quotient heatmap](assets/diff-quotient-heatmap.png)
 

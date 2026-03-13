@@ -18,6 +18,7 @@ TEMPLATE = """\
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{title}</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
 <style>
   body {{
     max-width: 38em;
@@ -44,7 +45,6 @@ TEMPLATE = """\
 <h1>{title}</h1>
 <div class="date">{date}</div>
 {body}
-<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
 <script>
 renderMathInElement(document.body, {{
