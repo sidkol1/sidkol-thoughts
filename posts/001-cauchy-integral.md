@@ -119,7 +119,8 @@ Try it yourself -- drag the red dot:
       pt.y = e.touches ? e.touches[0].clientY : e.clientY;
       var svgP = pt.matrixTransform(svg.getScreenCTM().inverse());
       xVal = fromSvgX(svgP.x);
-      if (Math.abs(xVal - x0) < 0.03) xVal = x0 + 0.03;
+      var eps = (xMax - xMin) * 0.005;
+      if (Math.abs(xVal - x0) < eps) xVal = x0 + eps;
       update();
     }
     xDot.addEventListener('mousedown', startDrag);
@@ -300,7 +301,8 @@ Try it yourself -- drag the red dot around the complex plane:
       var svgP = pt.matrixTransform(svg.getScreenCTM().inverse());
       zRe = fromSvgX(svgP.x);
       zIm = fromSvgY(svgP.y);
-      if (Math.abs(zRe - z0Re) < 0.05 && Math.abs(zIm - z0Im) < 0.05) zRe = z0Re + 0.05;
+      var eps = (vXMax - vXMin) * 0.005;
+      if (Math.abs(zRe - z0Re) < eps && Math.abs(zIm - z0Im) < eps) zRe = z0Re + eps;
       update();
     }
     zDot.addEventListener('mousedown', startDrag);
