@@ -3,8 +3,6 @@ title: Complex Differentiation
 date: 2026-03-12
 ---
 
-*The following writing assumes that you know the basics of multivariable calculus and complex numbers. It aims to provide an intuitive overview of some of the main results taught in introductory complex analysis courses. It does not provide the rigor of formal proof, or the proficiency developed via problem-solving.*
-
 When I ask people to explain what it might mean to talk about the derivative of a function $g:\mathbb{C}\rightarrow\mathbb{C}$, they sometimes muse about slopes of planes in four-dimensional-space. This mistake happens due to an excessive commitment to one notion of a *derivative*.
 
 People mentally model the idea of a *derivative* in many ways. According to one such model, the derivative of a function $f: \mathbb{R}\rightarrow\mathbb{R}$ at a point $x_0$ is the slope of the tangent line of $f$ at $x_0$. 
