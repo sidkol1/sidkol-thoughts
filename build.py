@@ -6,7 +6,7 @@ import shutil
 from pathlib import Path
 
 POSTS_DIR = Path("posts")
-OUTPUT_DIR = Path("output")
+OUTPUT_DIR = Path("docs")
 ASSETS_SRC = POSTS_DIR  # assets referenced relative to posts
 ASSETS_DST = OUTPUT_DIR / "assets"
 
