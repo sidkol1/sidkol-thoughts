@@ -152,7 +152,7 @@ Since $\frac{\Delta{f}}{\Delta{x}} \rightarrow 2$ as $x \rightarrow 1$, we concl
 
 Suppose that $g: \mathbb{C} \rightarrow \mathbb{C}$. We would expect the derivative of $g$ at a point $z_0$ to be the averate rate of change in $g$ between $z_0$ and points close to $z_0$ (or more specifically, the limit of this rate of change). Defining the average rate of change in $\mathbb{C}$ amounts to just swapping some variables for other ones in the definition for $\mathbb{R}$. Between $z_0$ and $z$, the average rate of change in $g$ is $\frac{g(z) - g(z_0)}{z - z_0}$. 
 
-The above guess is correct. Let's consider $g(z) = z^2$ and its derivative at $z_0 = 1 + i$. We'll calculate the average rate of change between $z_0$ and $w$ for various choices of $w$, and observe what happens when $w$ gets close to $z_0$. 
+The above guess is correct. Let's consider $g(z) = z^2$ and its derivative at $z_0 = 1 + i$. We'll calculate the average rate of change between $z_0$ and $z$ for various choices of $z$, and observe what happens when $z$ gets close to $z_0$. 
 
 ![Complex average rate of change](assets/complex-avg-rate.gif)
 
