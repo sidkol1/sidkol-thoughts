@@ -1,7 +1,9 @@
 ---
 title: Cauchy-Riemann Equations
 date: 2026-03-13
+category: Complex Analysis
 ---
+(You're advised to read the first post in this sequence before this one).
 
 So the derivative of a complex-valued function $g$ at $z_0$ is the complex number approached by $\frac{\Delta{g}}{\Delta{z}}$ as $\Delta{z} \rightarrow 0$. With this in mind, we should note that the derivative of a function $g$ need not exist at $z_0$.
 
@@ -295,4 +297,4 @@ $$\begin{equation*}
 
 Since both expressions equal $g'(z_0)$, they must equal each other. Equating real and imaginary parts, we obtain $$\frac{\partial{u}}{\partial{x}} = \frac{\partial{v}}{\partial{y}}$$ and $$\frac{\partial{v}}{\partial{x}} = -\frac{\partial{u}}{\partial{y}}.$$ These two conditions constitute the **Cauchy-Riemann Equations**. 
 
-Notice that we only checked two directions of approach — horizontal and vertical. It turns out these two suffice! Checking other directions yields no new equations, since $\frac{\Delta g}{\Delta z}$ along any direction can be expressed in terms of the same four partial derivatives. In the next post, we will prove that these necessary conditions are sufficient, provided the partial derivatives of $u$ and $v$ are continuous.
+Notice that we only checked two directions of approach: horizontal and vertical. It turns out these two suffice! Checking other directions yields no new equations, since $\frac{\Delta g}{\Delta z}$ along any direction can be expressed in terms of the same four partial derivatives. In the next post, we will prove that these necessary conditions are sufficient, provided the partial derivatives of $u$ and $v$ are continuous.

@@ -22,6 +22,7 @@
   .date { color: #888; font-size: 0.9em; margin-bottom: 2em; }
   .katex-display { overflow-x: auto; overflow-y: hidden; }
   img { max-width: 100%; border-radius: 4px; }
+  .caption { font-size: 0.85em; color: #666; font-style: italic; margin-top: 0.3em; margin-bottom: 1.5em; }
   a { color: #245; }
   .home { font-size: 0.9em; margin-bottom: 1.5em; }
   .home a { text-decoration: none; color: #666; }
@@ -31,6 +32,9 @@
 <div class="home"><a href="index.html">&larr; all posts</a></div>
 <h1>Cauchy-Riemann Equations</h1>
 <div class="date">2026-03-13</div>
+<p>
+(You're advised to read the first post in this sequence before this one).
+</p>
 <p>
 So the derivative of a complex-valued function $g$ at $z_0$ is the complex number approached by $\frac{\Delta{g}}{\Delta{z}}$ as $\Delta{z} \rightarrow 0$. With this in mind, we should note that the derivative of a function $g$ need not exist at $z_0$.
 </p>
@@ -345,7 +349,7 @@ $$\begin{equation*}
 Since both expressions equal $g'(z_0)$, they must equal each other. Equating real and imaginary parts, we obtain $$\frac{\partial{u}}{\partial{x}} = \frac{\partial{v}}{\partial{y}}$$ and $$\frac{\partial{v}}{\partial{x}} = -\frac{\partial{u}}{\partial{y}}.$$ These two conditions constitute the <strong>Cauchy-Riemann Equations</strong>.
 </p>
 <p>
-Notice that we only checked two directions of approach — horizontal and vertical. It turns out these two suffice! Checking other directions yields no new equations, since $\frac{\Delta g}{\Delta z}$ along any direction can be expressed in terms of the same four partial derivatives. In the next post, we will prove that these necessary conditions are sufficient, provided the partial derivatives of $u$ and $v$ are continuous.
+Notice that we only checked two directions of approach: horizontal and vertical. It turns out these two suffice! Checking other directions yields no new equations, since $\frac{\Delta g}{\Delta z}$ along any direction can be expressed in terms of the same four partial derivatives. In the next post, we will prove that these necessary conditions are sufficient, provided the partial derivatives of $u$ and $v$ are continuous.
 </p>
 <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
 <script>

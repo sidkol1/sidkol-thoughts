@@ -35,6 +35,7 @@ TEMPLATE = """\
   .date {{ color: #888; font-size: 0.9em; margin-bottom: 2em; }}
   .katex-display {{ overflow-x: auto; overflow-y: hidden; }}
   img {{ max-width: 100%; border-radius: 4px; }}
+  .caption {{ font-size: 0.85em; color: #666; font-style: italic; margin-top: 0.3em; margin-bottom: 1.5em; }}
   a {{ color: #245; }}
   .home {{ font-size: 0.9em; margin-bottom: 1.5em; }}
   .home a {{ text-decoration: none; color: #666; }}
@@ -64,7 +65,7 @@ INDEX_TEMPLATE = """\
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Complex Analysis</title>
+<title>sidkol-thoughts</title>
 <style>
   body {{
     max-width: 38em;
@@ -77,6 +78,7 @@ INDEX_TEMPLATE = """\
     background: #fdfdfd;
   }}
   h1 {{ font-size: 1.6em; }}
+  h2 {{ font-size: 1.25em; margin-top: 1.8em; }}
   ul {{ list-style: none; padding: 0; }}
   li {{ margin: 0.8em 0; }}
   a {{ color: #245; text-decoration: none; }}
@@ -85,13 +87,12 @@ INDEX_TEMPLATE = """\
 </style>
 </head>
 <body>
-<h1>Complex Analysis</h1>
-<ul>
-{entries}
-</ul>
+{sections}
 </body>
 </html>
 """
+
+CATEGORIES = ["Complex Analysis", "Philosophical Musings"]
 
 
 def parse_post(path: Path) -> dict:
@@ -220,12 +221,20 @@ def build():
         (OUTPUT_DIR / f"{post['slug']}.html").write_text(html)
         print(f"  built {post['slug']}.html")
 
-    entries = "\n".join(
-        f'<li><a href="{p["slug"]}.html">{p["meta"].get("title", p["slug"])}</a>'
-        f'<span class="date">{p["meta"].get("date", "")}</span></li>'
-        for p in posts
-    )
-    (OUTPUT_DIR / "index.html").write_text(INDEX_TEMPLATE.format(entries=entries))
+    sections = []
+    for cat in CATEGORIES:
+        cat_posts = [p for p in posts if p["meta"].get("category") == cat]
+        section = f"<h2>{cat}</h2>\n"
+        if cat_posts:
+            items = "\n".join(
+                f'<li><a href="{p["slug"]}.html">{p["meta"].get("title", p["slug"])}</a>'
+                f'<span class="date">{p["meta"].get("date", "")}</span></li>'
+                for p in cat_posts
+            )
+            section += f"<ul>\n{items}\n</ul>"
+        sections.append(section)
+
+    (OUTPUT_DIR / "index.html").write_text(INDEX_TEMPLATE.format(sections="\n".join(sections)))
     print(f"  built index.html ({len(posts)} posts)")
 
 
