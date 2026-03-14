@@ -1,6 +1,6 @@
 ---
 title: Cauchy-Riemann Equations
-date: 2026-01-13
+date: 2026-03-13
 ---
 
 So the derivative of a complex-valued function $g$ at $z_0$ is the complex number approached by $\frac{\Delta{g}}{\Delta{z}}$ as $\Delta{z} \rightarrow 0$. With this in mind, we should note that the derivative of a function $g$ need not exist at $z_0$.
@@ -177,7 +177,7 @@ Now let $g: \mathbb{C} \rightarrow \mathbb{C}$, and write $g(z) = u(x, y) + iv(x
 
 We want conditions on $g$ equivalent to differentiability. One natural strategy is to assume that differentiability holds, and deduce what must follow. 
 
-We do that here. First, suppose $g(z) = u(x, y) + iv(x, y)$ is differentiable at $z_0$. Then $u(x, y)$ and $v(x, y)$ must have first-order partial derivatives. (If you want to try proving why, submit your proof or a sketch of one below, and it will be graded by an LLM, or click to reveal the answer!)
+We do that here. First, suppose $g(z) = u(x, y) + iv(x, y)$ is differentiable at $z_0$. Then $u(x, y)$ and $v(x, y)$ must have first-order partial derivatives. (If you want to try proving why, submit your proof or a sketch of one below. It will be graded by an LLM. Alternatively, request a hint or click to reveal the answer!)
 
 <div class="proof-form" style="margin:1.5em 0; border:1px solid #ddd; border-radius:6px; padding:1.2em;">
   <div style="font-size:0.95em; margin-bottom:0.6em; color:#555;">Prove that if $g$ is complex-differentiable at $z_0$, then $u$ and $v$ have first-order partial derivatives at $(x_0, y_0)$.</div>

@@ -1,6 +1,6 @@
 ---
 title: Complex Differentiation
-date: 2026-01-12
+date: 2026-03-12
 ---
 
 When I ask people to explain what it might mean to take the derivative of a function $g:\mathbb{C}\rightarrow\mathbb{C}$, they sometimes muse about slopes of planes in four-dimensional-space. This mistake happens because they are overly committed to one of many possible conceptions of a *derivative*.
