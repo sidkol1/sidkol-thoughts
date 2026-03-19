@@ -42,20 +42,23 @@ As was the case with differentiation, we should take a broader and more abstract
 <img src="assets/riemann-sum.gif" alt="Riemann sum">
 <div class="caption">A Riemann sum for $\int_{0}^{3}2x\,dx$ is shown above, with $\Delta{x} = 0.5$ and evaluation at the left-endpoint. The integral itself is found by letting $\Delta{x} \rightarrow 0$.</div>
 <p>
-With some thought,we can see how we might analogously think about integrals in $\mathbb{C}$ of a function $g: \mathbb{C} \rightarrow \mathbb{C}$. In $\mathbb{R}$, we integrate a function from one real number to another; $x_1$ and $x_2$. In $\mathbb{R}$, we take a path from $x_1$ to $x_2$. Then we break it into pieces and evaluate $f$ at each piece. Finally, we sum the values of $f$, with weights determined by the lengths of the pieces. The integral is obtained by letting the number of pieces go to infinity.
+With some thought, we can see how we might analogously think about integrating a function $g: \mathbb{C} \rightarrow \mathbb{C}$. In $\mathbb{R}$, we take a path from $x_1$ to $x_2$. Then we break it into pieces and evaluate $f$ at each piece. Finally, we sum these outputs of $f$, with weights determined by the lengths of the pieces. The integral is obtained by letting the number of pieces go to infinity.
 </p>
 <p>
-(Question: do the sizes of the pieces need to be uniform?)
+(Food for thought: do the sizes of the pieces need to be uniform?)
 </p>
 <p>
-One subtlety in the previous paragraph lies in the phrase "take a path from $x_1$ to $x_2$". In $\mathbb{C}$, the first problem we encounter is that there are infinitely many paths from $z_1$ to $z_2$. Thus, we take an intergral in $\mathbb{C}$ <em>with respect to</em>, or <em>over</em>, a particular path (called a <em>contour</em>).
+One subtlety in the previous paragraph lies in the phrase "take a path from $x_1$ to $x_2$". In $\mathbb{C}$, the first problem we encounter is that there are infinitely many paths from $z_1$ to $z_2$. It is not clear whether the value of our integral should depend on the chosen path. Thus, to begin with, we take an intergral in $\mathbb{C}$ <em>with respect to</em>, or <em>over</em>, a particular path (called a <em>contour</em>).
 </p>
 <p>
-The rest is pretty much the same. We break the path into pieces. Then we evaluate $g$ at each piece. Finally, we add the results, with weights $\Delta{z}$ equal to displacement, as a complex number, across each piece. The integral is obtained by letting the number of pieces go to infinity.
+The rest is pretty much the same. We break the selected path into pieces. Then we evaluate $g$ at each piece. Finally, we calculate a weighted sum of the results. This time, the weights $\Delta{z_k}$, is the displacement <em>across a piece</em>, expressed as a complex number. The integral is obtained by letting the number of pieces go to infinity.
 </p>
 <img src="assets/complex-riemann-sum.gif" alt="Complex Riemann sum">
 <p>
-Above is a crude Riemann sum for $\int_{\gamma}z^2\,dz$, where the contour $\gamma$ is parametrized by $z(t) = t + i(t + 0.35\sin(\pi{t}))$ for $t \in [0, 1]$. How we split the contour into parts is determined by the step size $\Delta{t} = 0.25$; that is, the $i$-th part is parametrized by $z(t)$ for $t \in [0.25(i - 1), 0.25i)$. Let's try evaluating this very crude Riemann sum. We'll see how it compares to the value of the integral at the end.
+Above is a crude Riemann sum for $\int_{\gamma}z^2\,dz$, where the contour $\gamma$ is parametrized by $z(t) = t + i(t + 0.35\sin(\pi{t}))$ for $t \in [0, 1]$. How we split the contour into parts is determined by the step size $\Delta{t} = 0.25$; that is, the $k$-th part is parametrized by $z(t)$ for $t \in [0.25(k - 1), 0.25k)$. Let's try evaluating this very crude Riemann sum. We'll see how it compares to the value of the integral at the end.
+</p>
+<p>
+(Additional food for thought: we split the contour $\gamma$ into parts at the points $z(0.25)$, $z(0.5)$, $z(0.75)$. As a result, each part has a different length in the complex plane. Alternatively, we could have split the contour into parts of equal length, as in the real case. Does the appraoch we take affect the eventual value of the integral, when we let the number of parts go to infinity? Why or why not?)
 </p>
 <style>
 .rw-module { margin: 2.5em 0 1em; }
@@ -337,7 +340,6 @@ Above is a crude Riemann sum for $\int_{\gamma}z^2\,dz$, where the contour $\gam
         'Our crude Riemann sum gives ' + kstr(fmtC(total)) +
         '. The exact value of ' + kstr('\\int_{\\gamma} z^2\\,dz') +
         ' is ' + kstr('-\\tfrac{2}{3} + \\tfrac{2}{3}i') +
-        ' (since $z^2$ has antiderivative $z^3/3$, the integral depends only on the endpoints). ' +
         'With only 4 pieces the estimate is rough, but it converges as the partition gets finer.';
       done.style.display = 'block';
       renderMathInElement(done, {

@@ -24,7 +24,7 @@ The rest is pretty much the same. We break the selected path into pieces. Then w
 
 ![Complex Riemann sum](assets/complex-riemann-sum.gif)
 
-Above is a crude Riemann sum for $\int_{\gamma}z^2\,dz$, where the contour $\gamma$ is parametrized by $z(t) = t + i(t + 0.35\sin(\pi{t}))$ for $t \in [0, 1]$. How we split the contour into parts is determined by the step size $\Delta{t} = 0.25$; that is, the $i$-th part is parametrized by $z(t)$ for $t \in [0.25(i - 1), 0.25i)$. Let's try evaluating this very crude Riemann sum. We'll see how it compares to the value of the integral at the end.
+Above is a crude Riemann sum for $\int_{\gamma}z^2\,dz$, where the contour $\gamma$ is parametrized by $z(t) = t + i(t + 0.35\sin(\pi{t}))$ for $t \in [0, 1]$. How we split the contour into parts is determined by the step size $\Delta{t} = 0.25$; that is, the $k$-th part is parametrized by $z(t)$ for $t \in [0.25(k - 1), 0.25k)$. Let's try evaluating this very crude Riemann sum. We'll see how it compares to the value of the integral at the end.
 
 (Additional food for thought: we split the contour $\gamma$ into parts at the points $z(0.25)$, $z(0.5)$, $z(0.75)$. As a result, each part has a different length in the complex plane. Alternatively, we could have split the contour into parts of equal length, as in the real case. Does the appraoch we take affect the eventual value of the integral, when we let the number of parts go to infinity? Why or why not?)
 
