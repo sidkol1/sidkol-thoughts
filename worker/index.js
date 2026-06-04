@@ -1,4 +1,4 @@
-const SYSTEM_PROMPT =
+const DEFAULT_SYSTEM_PROMPT =
   'You are a concise, friendly math grader for a complex analysis blog. ' +
   'The student has submitted a proof or proof sketch. ' +
   'Give feedback in 1-3 sentences: say whether the argument is correct, and if not, ' +
@@ -22,7 +22,7 @@ export default {
     }
 
     try {
-      const { proof, context } = await request.json();
+      const { proof, context, systemPrompt } = await request.json();
       if (!proof || !proof.trim()) {
         return jsonResponse({ feedback: 'Please write something first.' });
       }
@@ -33,7 +33,7 @@ export default {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            system_instruction: { parts: [{ text: SYSTEM_PROMPT }] },
+            system_instruction: { parts: [{ text: systemPrompt || DEFAULT_SYSTEM_PROMPT }] },
             contents: [
               {
                 parts: [
