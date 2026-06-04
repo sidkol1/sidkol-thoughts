@@ -40,8 +40,8 @@ If an action satisfies these two conditions, then a system of voluntary paternal
 
 <div class="caption">Under voluntary paternalism, conditions (i) and (ii) mean most people who would be harmed opt to make the action illegal for themselves, while most who would benefit leave it legal.</div>
 
-## Aside: Ulyssess pacts
- I should note that the idea of voluntary paternalism is not a completely new one, and has in fact already been implemented in some states, through what are called *Ulysses pacts*. According to the American Foundation for Suicide Prevention, some states allow you to voluntarily make it illegal to sell you firearms.
+## Aside: Ulysses pacts
+ I should note that the idea of voluntary paternalism is not a completely new one, and has in fact already been implemented in some states, [through what are called *Ulysses pacts*](https://en.wikipedia.org/wiki/Ulysses_pact). According to the American Foundation for Suicide Prevention, some states allow you to voluntarily make it illegal to sell you firearms.
 
 ![AFSP voluntary do-not-sell list programs](assets/firearms-do-not-sell.png)
 
