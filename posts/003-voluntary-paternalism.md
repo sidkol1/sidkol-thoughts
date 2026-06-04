@@ -22,7 +22,7 @@ When people take a certain action, some of their lives improve as a result, whil
 
 A system of voluntary paternalism is one in which citizens select which paternalistic constraints they would like to apply to them, far in advance. The choice to make a dangerous behavior legal would only go into effect after substantial time has passed -- enough time for the person to change their mind, and nullify their previous choice. 
 
-*Note: for the rest of the post, we implicitly quantify over people who would take the action if it were completely legal, writing just "people" for short*
+*Note: for the rest of the post, we implicitly quantify over people who would take the action if it were completely legal, writing just "people" for short.*
 
 Voluntary paternalism offers an improvement over traditioanl paternalism, if two conditions are met:
 
