@@ -24,7 +24,7 @@ A system of voluntary paternalism is one in which citizens select which paternal
 
 *Note: for the rest of the post, we implicitly quantify over people who would take the action if it were completely legal, writing just "people" for short.*
 
-Voluntary paternalism offers an improvement over traditioanl paternalism, if two conditions are met:
+Voluntary paternalism offers an improvement over traditional paternalism, if two conditions are met:
 
 <div class="numbered-list">
 <ol type="i">
