@@ -1,4 +1,4 @@
-import {SWARAS,midiHz,swaraHz,noteName,nearestSwara,centsBetween,detectPitch,scorePitch,SoundEngine} from './music.js';
+import {SWARAS,midiHz,swaraHz,noteName,nearestSwara,centsBetween,detectPitch,scorePitch,SoundEngine} from './music.js?v=20261115-2';
 const $=id=>document.getElementById(id);
 const sound=new SoundEngine();
 const defaults={base:56,timbre:'piano',level:'beginner',duration:'auto',response:6,memory:false};

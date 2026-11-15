@@ -81,7 +81,21 @@ export class SoundEngine{
     nodes[0].onended=()=>{master.disconnect();nodes.forEach(n=>n.disconnect());this.nodes.delete(entry);};
   }
   stopNotes(){for(const {nodes,master}of this.nodes){try{master.gain.cancelScheduledValues(this.ctx.currentTime);master.gain.setTargetAtTime(0,this.ctx.currentTime,.015);for(const n of nodes)if(n.stop)n.stop(this.ctx.currentTime+.06);}catch{}}}
-  async toggleDrone(base,on){await this.unlock();this.stopDrone();if(!on)return;const ctx=this.ctx;[midiHz(base-12),midiHz(base),midiHz(base-5)].forEach((hz,i)=>{const osc=ctx.createOscillator(),gain=ctx.createGain();osc.frequency.value=hz;gain.gain.value=0;gain.gain.linearRampToValueAtTime(i===0?.045:.022,ctx.currentTime+.5);osc.connect(gain);gain.connect(ctx.destination);osc.start();this.drone.push({osc,gain});});}
+  async toggleDrone(base,on){
+    await this.unlock();
+    this.stopDrone();
+    if(!on)return;
+    const ctx=this.ctx,sa=midiHz(base);
+    // Keep the selected Sa as the fundamental, with quiet upper harmonics.
+    [1,2,3].forEach((harmonic,i)=>{
+      const osc=ctx.createOscillator(),gain=ctx.createGain();
+      osc.frequency.value=sa*harmonic;
+      gain.gain.value=0;
+      gain.gain.linearRampToValueAtTime([.045,.012,.006][i],ctx.currentTime+.5);
+      osc.connect(gain);gain.connect(ctx.destination);osc.start();
+      this.drone.push({osc,gain});
+    });
+  }
   stopDrone(){for(const{osc,gain}of this.drone){try{osc.stop();gain.disconnect();}catch{}}this.drone=[];}
   async microphone(signal){
     if(!navigator.mediaDevices?.getUserMedia)throw new Error('Microphone access needs HTTPS or localhost in a supported browser.');
